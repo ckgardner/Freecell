@@ -335,6 +335,56 @@ void CFreecellStarter2020Dlg::OnLButtonUp(UINT nFlags, CPoint point)
 			mCells[selected]->AddCard(top);
 			mCells[mFirstClick]->SelectCell(false);
 		}
+		//int second = mCells[selected]->GetTopCard();
+		//int firstRank = top/4;
+		//int secondRank = second/4;
+		//int firstSuit = top%4;
+		//int secondSuit = second%4;
+		//int difference = secondRank-firstRank; 
+		//bool goodSuit = false;
+
+		//// Check if the free cells are empty
+		//if (selected <= 8) {
+		//	if (second == false) {
+		//		mCells[mFirstClick]->AddCard(top);
+		//	}
+		//	else {
+		//		mCells[selected]->AddCard(first);
+		//	}
+		//}
+		//else {
+		//	if (firstSuit == 0) {
+		//		if (secondSuit == 1 || secondSuit == 2) {
+		//			goodSuit = true;
+		//		}
+		//		else {
+		//			goodSuit = false;
+		//		}
+		//	}
+		//	if (firstSuit == 1) {
+		//		if (secondSuit == 0 || secondSuit == 3) {
+		//			goodSuit = true;
+		//		}
+		//		else {
+		//			goodSuit = false;
+		//		}
+		//	}
+		//	if (firstSuit == 2) {
+		//		if (secondSuit == 0 || secondSuit == 3) {
+		//			goodSuit = true;
+		//		}
+		//		else {
+		//			goodSuit = false;
+		//		}
+		//	}
+		//	if (firstSuit == 3) {
+		//		if (secondSuit == 1 || secondSuit == 2) {
+		//			goodSuit = true;
+		//		}
+		//		else {
+		//			goodSuit = false;
+		//		}
+		//	}
 
 
 		//	if (first < second && goodSuit == true && difference == 1) {

@@ -25,7 +25,7 @@ public:
 protected:
 	HICON m_hIcon;
 	Cell* mCells[16];
-	int mFirstClick;
+	int mFirstClick = 0;
 
 	// Generated message map functions
 	virtual BOOL OnInitDialog();
@@ -37,5 +37,6 @@ public:
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnFileQuit();
 	afx_msg void OnFileRestart();
-	DoubleBufferDrawing();
+	// DoubleBufferDrawing();
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };

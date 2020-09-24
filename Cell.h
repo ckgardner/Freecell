@@ -26,22 +26,20 @@ protected:
 
 class StartCell : public Cell {
 public:
-	StartCell(int left, int top, int right, int bottom) :
-		Cell(left, top, right, bottom) {}
-	virtual bool CanAddCard(int index) = 0;
+	StartCell(int left, int top, int right, int bottom):Cell(left, top, right, bottom) {}
+	virtual bool CanAddCard(int index);
+	virtual void Draw(CDC& dc);
 };
 
 class FreeCell : public Cell {
 public:
-	FreeCell(int left, int top, int right, int bottom):
-		Cell(left, top, right, bottom){}
-	virtual bool CanAddCard(int index) = 0;
+	FreeCell(int left, int top, int right, int bottom):Cell(left, top, right, bottom){}
+	virtual bool CanAddCard(int index);
 };
 
 class EndCell : public Cell {
 public:
-	EndCell(int left, int top, int right, int bottom) :
-		Cell(left, top, right, bottom) {}
+	EndCell(int left, int top, int right, int bottom):Cell(left, top, right, bottom) {}
 	virtual bool CanRemoveCard();
-	virtual bool CanAddCard(int index) = 0;
+	virtual bool CanAddCard(int index);
 };

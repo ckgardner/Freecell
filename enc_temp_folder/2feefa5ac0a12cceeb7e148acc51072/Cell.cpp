@@ -72,55 +72,7 @@ bool EndCell::CanRemoveCard() {
 }
 
 bool StartCell::CanAddCard(int index) {
-	int selectedRank = index / 4;
-	int selectedSuit = index % 4;
-	if (mCards.size() > 0) {
-		int topRank = GetTopCard() / 4;
-		int topSuit = GetTopCard() % 4;
-		int rankDifference = topRank - selectedRank;
-		bool goodSuit = false;
-		if (selectedSuit == 0) {
-			if (topSuit == 1 || topSuit == 2) {
-				goodSuit = true;
-			}
-			else {
-				goodSuit = false;
-			}
-		}
-		if (selectedSuit == 1) {
-			if (topSuit == 0 || topSuit == 3) {
-				goodSuit = true;
-			}
-			else {
-				goodSuit = false;
-			}
-		}
-		if (selectedSuit == 2) {
-			if (topSuit == 0 || topSuit == 3) {
-				goodSuit = true;
-			}
-			else {
-				goodSuit = false;
-			}
-		}
-		if (selectedSuit == 3) {
-			if (topSuit == 1 || topSuit == 2) {
-				goodSuit = true;
-			}
-			else {
-				goodSuit = false;
-			}
-		}
-		if (goodSuit == true && rankDifference == 1) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	else {
-		return true;
-	}
+	return true;
 }
 bool FreeCell::CanAddCard(int index) {
 	if (mCards.size() == 0) {

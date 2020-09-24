@@ -66,6 +66,9 @@
     <None Include="res\FreecellStarter2020.rc2">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="cards.dll">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\FreecellStarter2020.ico">
