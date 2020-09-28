@@ -39,4 +39,7 @@ public:
 	afx_msg void OnFileRestart();
 	// DoubleBufferDrawing();
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	afx_msg void MyDrawing(CDC& pDC);
+	afx_msg void DoubleBufferDrawing(CDC& dc);
+	afx_msg void OnInitMenu(CMenu* pMenu);
 };

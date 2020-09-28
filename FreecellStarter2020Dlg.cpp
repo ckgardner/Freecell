@@ -70,6 +70,7 @@ BEGIN_MESSAGE_MAP(CFreecellStarter2020Dlg, CDialogEx)
 	ON_COMMAND(ID_FILE_QUIT, &CFreecellStarter2020Dlg::OnFileQuit)
 	ON_COMMAND(ID_FILE_RESTART, &CFreecellStarter2020Dlg::OnFileRestart)
 	ON_WM_ERASEBKGND()
+	ON_WM_INITMENU()
 END_MESSAGE_MAP()
 
 
@@ -144,7 +145,7 @@ BOOL CFreecellStarter2020Dlg::OnInitDialog()
 	int minWidth = left; // Set minWidth and minHeight to your needed size
 	int minHeight = top + cellHeight + SCREEN_MARGIN;
 	CRect neededClient(0, 0, minWidth, minHeight);
-	bool menuPresent = false; // set based on whether or not you are using a menu.
+	bool menuPresent = true; // set based on whether or not you are using a menu.
 	AdjustWindowRectEx(&neededClient, WS_OVERLAPPEDWINDOW, menuPresent, NULL); // converts from client (dialog) to window coordinates
 	SetWindowPos(NULL, 0, 0, neededClient.Width(), neededClient.Height(), SWP_NOZORDER | SWP_NOMOVE);
 
@@ -178,8 +179,6 @@ BOOL CFreecellStarter2020Dlg::OnInitDialog()
 		}
 	}
 
-	mFirstClick = -1;
-
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -205,7 +204,7 @@ void CFreecellStarter2020Dlg::OnPaint()
 	if (IsIconic())
 	{
 		CPaintDC dc(this); // device context for painting
-		//DoubleBufferDrawing(dc);
+		DoubleBufferDrawing(dc);
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
@@ -244,61 +243,54 @@ HCURSOR CFreecellStarter2020Dlg::OnQueryDragIcon() {
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-// This is where you do all your drawing, including setting the background color:
-//void CFreecellStarter2020Dlg::MyDrawing(CDC& dc)
-//{
-//	// Draw the backgroud:
-//	CRect rcClipBox;
-//	dc.GetClipBox(rcClipBox);
-//	COLORREF gcBackgroundColor = (RGB(200, 255, 200)); // your choice!
-//	dc.FillSolidRect(rcClipBox, gcBackgroundColor);
-//
-//	// Draw the rest of my stuff:
-//	int left = 20;
-//	int top = 20;
-//	bool selected = false;
-//	for (int i = 0; i < 16; i++)
-//	{
-//		mCells[i]->Draw(dc);
-//	}
-//}
-//
-//// This code you will never change:
-//void CFreecellStarter2020Dlg::DoubleBufferDrawing(CDC& dc)
-//{
-//	// Get clip box
-//	CRect rcClipBox;
-//	dc.GetClipBox(rcClipBox);
-//
-//	// Create memory dc and update it's mapping state
-//	CDC memDC;
-//	memDC.CreateCompatibleDC(&dc);
-//	memDC.SetMapMode(dc.GetMapMode());
-//	memDC.SetViewportOrg(dc.GetViewportOrg());
-//	memDC.IntersectClipRect(rcClipBox);
-//
-//	// Create memory bitmap
-//	CBitmap bmp;
-//	bmp.CreateCompatibleBitmap(&dc, rcClipBox.Width(), rcClipBox.Height());
-//	CBitmap* pOldBmp = memDC.SelectObject(&bmp);
-//
-//	// Do my Drawings to the memDC backbuffer
-//	MyDrawing(memDC);
-//
-//	// Blit memDC to the original dc
-//	dc.BitBlt(rcClipBox.left, rcClipBox.top, rcClipBox.Width(), rcClipBox.Height(), &memDC, rcClipBox.left, rcClipBox.top, SRCCOPY);
-//
-//	// Restore old bitmap and cleanup
-//	memDC.DeleteDC();
-//	bmp.DeleteObject();
-//}
-//
-//// The system calls this function to obtain the cursor to display while the user drags
-////  the minimized window.
-//HCURSOR CFreecellStarter2020Dlg::OnQueryDragIcon()
-//{
-//	return static_cast<HCURSOR>(m_hIcon);
-//}
+ //This is where you do all your drawing, including setting the background color:
+void CFreecellStarter2020Dlg::MyDrawing(CDC& dc)
+{
+	// Draw the backgroud:
+	CRect rcClipBox;
+	dc.GetClipBox(rcClipBox);
+	COLORREF gcBackgroundColor = (RGB(2, 112, 19)); // your choice!
+	dc.FillSolidRect(rcClipBox, gcBackgroundColor);
+
+	// Draw the rest of my stuff:
+	int left = 20;
+	int top = 20;
+	bool selected = false;
+	for (int i = 0; i < 16; i++)
+	{
+		mCells[i]->Draw(dc);
+	}
+}
+
+// This code you will never change:
+void CFreecellStarter2020Dlg::DoubleBufferDrawing(CDC& dc)
+{
+	// Get clip box
+	CRect rcClipBox;
+	dc.GetClipBox(rcClipBox);
+
+	// Create memory dc and update it's mapping state
+	CDC memDC;
+	memDC.CreateCompatibleDC(&dc);
+	memDC.SetMapMode(dc.GetMapMode());
+	memDC.SetViewportOrg(dc.GetViewportOrg());
+	memDC.IntersectClipRect(rcClipBox);
+
+	// Create memory bitmap
+	CBitmap bmp;
+	bmp.CreateCompatibleBitmap(&dc, rcClipBox.Width(), rcClipBox.Height());
+	CBitmap* pOldBmp = memDC.SelectObject(&bmp);
+
+	// Do my Drawings to the memDC backbuffer
+	MyDrawing(memDC);
+
+	// Blit memDC to the original dc
+	dc.BitBlt(rcClipBox.left, rcClipBox.top, rcClipBox.Width(), rcClipBox.Height(), &memDC, rcClipBox.left, rcClipBox.top, SRCCOPY);
+
+	// Restore old bitmap and cleanup
+	memDC.DeleteDC();
+	bmp.DeleteObject();
+}
 
 
 
@@ -335,6 +327,9 @@ void CFreecellStarter2020Dlg::OnLButtonUp(UINT nFlags, CPoint point)
 			mCells[selected]->AddCard(top);
 			mCells[mFirstClick]->SelectCell(false);
 		}
+		mCells[mFirstClick]->SelectCell(false);
+		mFirstClick = -1;
+		
 
 
 		//	if (first < second && goodSuit == true && difference == 1) {
@@ -367,4 +362,12 @@ BOOL CFreecellStarter2020Dlg::OnEraseBkgnd(CDC* pDC)
 	// TODO: Add your message handler code here and/or call default
 
 	return TRUE;
+}
+
+
+void CFreecellStarter2020Dlg::OnInitMenu(CMenu* pMenu)
+{
+	CDialogEx::OnInitMenu(pMenu);
+
+	// TODO: Add your message handler code here
 }

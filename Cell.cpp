@@ -26,29 +26,41 @@ void Cell::SelectCell(bool s)
 }
 int Cell::GetTopCard()
 {
-	return mCards.back();
+	if (mCards.size() >= 1){
+		return mCards.back();
+	}
+	else {
+		return false;
+	}
+	
 }
 void StartCell::Draw(CDC& dc) {
 	// Draw cell background
-	CBrush cellBackground(RGB(240, 150, 255));
+	CBrush cellBackground(RGB(2, 112, 19));
 	dc.SelectObject(cellBackground);
 	dc.Rectangle(mLeft, mTop, mRight, mBottom);
 
 	// Draw the cards in the cell
-	for (unsigned int i = 0; i < mCards.size(); i++)
-	{
-		DrawCard(dc, mLeft + CELL_MARGIN, mTop + CELL_MARGIN + CARD_STAGGER * i, mCards[i], mSelected);
+	if (mCards.size() > 0) {
+		for (unsigned int i = 0; i < mCards.size() - 1; i++)
+		{
+			DrawCard(dc, mLeft + CELL_MARGIN, mTop + CELL_MARGIN + CARD_STAGGER * i, mCards[i], false);
+		}
+		DrawCard(dc, mLeft + CELL_MARGIN, mTop + CELL_MARGIN + CARD_STAGGER * mCards.size() - CARD_STAGGER, mCards[mCards.size() - 1], mSelected);
 	}
 }
 void Cell::Draw(CDC & dc)
 {
 	// Draw cell background
-	CBrush cellBackground(RGB(240, 150, 255));
+	CBrush cellBackground(RGB(2, 112, 19));
 	dc.SelectObject(cellBackground);
 	dc.Rectangle(mLeft, mTop, mRight, mBottom);
 
 	// Draw the top card in the cell
-	DrawCard(dc, mLeft+CELL_MARGIN, mTop+CELL_MARGIN, GetTopCard(), mSelected);
+	if (mCards.size() > 0){
+		DrawCard(dc, mLeft + CELL_MARGIN, mTop + CELL_MARGIN, GetTopCard(), mSelected);
+	}
+	
 }
 bool Cell::IsClicked(int x, int y)
 {
